@@ -1,5 +1,6 @@
 """Models for Blogly."""
 from flask_sqlalchemy import SQLAlchemy
+import datetime
 
 db = SQLAlchemy()
 
@@ -13,11 +14,8 @@ class User(db.Model):
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-
     first_name = db.Column(db.Text, nullable=False)
-
     last_name = db.Column(db.Text, nullable=False)
-
     image_url = db.Column(db.Text, default=DEFAULT_IMG, nullable=False)
 
     # @property Helped fix '<bound method User.full_name of <User 3>>'
@@ -25,3 +23,20 @@ class User(db.Model):
     def full_name(self):
         """Return first & last name"""
         return f"{self.first_name} {self.last_name}"
+
+class Post(db.Model):
+    __tablename__ = 'post'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.Text, nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    user = db.relationship('User', backref='post')
+
+    @property
+    def formated_date(self):
+        """Formats the date for users"""
+
+        return self.created_at.strftime("%b %d %Y %H:%M:%S")

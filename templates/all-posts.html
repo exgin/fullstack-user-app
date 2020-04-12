@@ -1,0 +1,13 @@
+{% extends 'index.html' %} {% block content %}
+<h1>All Posts</h1>
+
+{% for posts in post %}
+<div class="post-container">
+  <h3>{{posts.title}}</h3>
+  <p>{{posts.content}}</p> <span><small>By: {{posts.user.full_name}} | {{posts.formated_date}}</small></span>
+</div>
+<hr />
+{% endfor %}
+
+<p><a class="btn btn-sm btn-secondary" href="/">Go to Home</a></p>
+{% endblock %}

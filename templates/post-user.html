@@ -1,0 +1,16 @@
+{% extends 'index.html' %} {% block content %}
+<div class="container">
+  <h1>Post Details from {{post.user.full_name}}</h1>
+
+  <p>{{post.title}}</p>
+
+  <p>{{post.content}}</p>
+
+  <form>
+    <button class="btn btn-sm btn-secondary" formmethod="GET" formaction="/users/{{ post.user_id }}">Cancel</button>
+    <button class="btn btn-sm btn-warning" formmethod="GET" formaction="/posts/{{ post.id }}/edit">Edit</button>
+    <button class="btn btn-sm btn-danger" formmethod="POST" formaction="/posts/{{ post.id }}/delete">Delete</button>
+  </form>
+</div>
+
+{% endblock %}

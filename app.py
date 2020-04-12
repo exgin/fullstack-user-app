@@ -1,7 +1,7 @@
 """Blogly application."""
 
-from flask import Flask, render_template, redirect, request
-from models import db, connect_db, User
+from flask import Flask, render_template, redirect, request, flash
+from models import db, connect_db, User, Post
 from flask_debugtoolbar import DebugToolbarExtension
 
 
@@ -67,9 +67,41 @@ def edit_user(user_id):
 @app.route('/users/<int:user_id>/delete', methods=['POST'])
 def delete_user(user_id):
     """Delete a user from my database"""
-    
     user = User.query.get_or_404(user_id)
     db.session.delete(user)
     db.session.commit()
 
     return redirect('/')
+
+# Post Routes #
+@app.route('/users/<int:user_id>/posts/new')
+def show_user_post_form(user_id):
+    """Show user post form"""
+    user = User.query.get_or_404(user_id)
+
+    return render_template('add-post-user.html', user=user)
+
+@app.route('/users/<int:user_id>/posts/new', methods=['POST'])
+def handle_user_post(user_id):
+    """Handle user posts"""
+    user = User.query.get_or_404(user_id)
+
+    new_post = Post(title=request.form['post-title'], content=request.form['post-content'])
+    db.session.add(new_post)
+    db.session.commit()
+    
+    return redirect(f"/users/{user_id}")
+
+@app.route('/post/<int:post_id>')
+def show_post_details(post_id):
+    """Show our post details"""
+    post = Post.query.get_or_404(post_id)
+
+    return render_template('post-user.html', post=post)
+
+@app.route('/posts')
+def show_all_posts():
+    """Show every user post"""
+    post = Post.query.all()
+
+    return render_template('all-posts.html', post=post)

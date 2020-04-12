@@ -2,14 +2,26 @@
 <div class="container">
   <img src="{{user.image_url}}" alt="user img" />
   <h2>{{user.full_name}}</h2>
-
-  <p><a class="btn btn-md btn-warning" href="/users/{{user.id}}/edit">Edit</a></p>
+  <a class="btn btn-sm btn-warning" href="/users/{{user.id}}/edit">Edit User Information</a>
+  <br />
+  <br />
   <form>
-    <p
-      ><button class="btn btn-danger btn-md" formaction="/users/{{user.id}}/delete" formmethod="POST">Delete</button></p
-    >
+    <button class="btn btn-danger btn-sm" formaction="/users/{{user.id}}/delete" formmethod="POST">Delete User</button>
   </form>
-  <p><a class="btn btn-md btn-info" href="/">Back to Home</a></p>
+  <hr />
+
+  <div class="container-post">
+    <h3>Posts</h3>
+    <ul>
+      {% for post in user.post %}
+      <li><a href="/post/{{post.id}}">{{post.title}}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <a class="btn btn-sm btn-secondary" href="/users/{{user.id}}/posts/new">Add a Post</a>
+  <hr />
+  <a class="btn btn-sm btn-info" href="/">Back to Home</a>
 </div>
 
 {% endblock %}
