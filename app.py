@@ -86,7 +86,10 @@ def handle_user_post(user_id):
     """Handle user posts"""
     user = User.query.get_or_404(user_id)
 
-    new_post = Post(title=request.form['post-title'], content=request.form['post-content'])
+    new_post = Post(title=request.form['post-title'], content=request.form['post-content'], user=user)
+    
+    # user.post? in html?
+
     db.session.add(new_post)
     db.session.commit()
     
