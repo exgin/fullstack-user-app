@@ -9,6 +9,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
+app.config['SECRET_KEY'] = 'sam123'
+debug = DebugToolbarExtension(app)
 
 
 connect_db(app)
@@ -85,15 +87,21 @@ def show_user_post_form(user_id):
 def handle_user_post(user_id):
     """Handle user posts"""
     user = User.query.get_or_404(user_id)
-
-    new_post = Post(title=request.form['post-title'], content=request.form['post-content'], user=user)
-    
-    # user.post? in html?
+    new_post = Post(title=request.form['post-title'], content=request.form['post-content'], user_id=user_id)
 
     db.session.add(new_post)
     db.session.commit()
     
     return redirect(f"/users/{user_id}")
+
+@app.route('/post/<int:post_id>/delete', methods=['POST'])
+def delete_post(post_id):
+    """Delete a specific post"""
+    post = Post.query.get_or_404(post_id)
+    db.session.delete(post)
+    db.session.commit()
+
+    return redirect(f"/users/{post.user_id}")
 
 @app.route('/post/<int:post_id>')
 def show_post_details(post_id):
@@ -108,3 +116,30 @@ def show_all_posts():
     post = Post.query.all()
 
     return render_template('all-posts.html', post=post)
+
+@app.route('/post/<int:post_id>/edit')
+def show_edit_post(post_id):
+    """Show user the form to edit a post"""
+    post = Post.query.get_or_404(post_id)
+
+    return render_template('edit-post.html', post=post)
+
+@app.route('/post/<int:post_id>/edit', methods=['POST'])
+def handle_edit_post(post_id):
+    """Handle post request & logic for user posts"""
+    edited_post = Post.query.get_or_404(post_id)
+
+    edited_post.title = request.form['post-title']
+    edited_post.content = request.form['post-content']
+
+    db.session.add(edited_post)
+    db.session.commit()
+
+    return redirect(f"/users/{edited_post.user_id}")
+
+# Error for invalid page
+@app.errorhandler(404)
+def page_error(e):
+    """Show 404 page not found"""
+
+    return render_template('404.html')

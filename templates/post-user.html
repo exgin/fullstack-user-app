@@ -8,8 +8,8 @@
 
   <form>
     <button class="btn btn-sm btn-secondary" formmethod="GET" formaction="/users/{{ post.user_id }}">Cancel</button>
-    <button class="btn btn-sm btn-warning" formmethod="GET" formaction="/posts/{{ post.id }}/edit">Edit</button>
-    <button class="btn btn-sm btn-danger" formmethod="POST" formaction="/posts/{{ post.id }}/delete">Delete</button>
+    <button class="btn btn-sm btn-warning" formmethod="GET" formaction="/post/{{ post.id }}/edit">Edit</button>
+    <button class="btn btn-sm btn-danger" formmethod="POST" formaction="/post/{{ post.id }}/delete">Delete</button>
   </form>
 </div>
 

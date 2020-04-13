@@ -1,22 +1,22 @@
 {% extends 'index.html' %} {% block content %}
-
 <div class="container">
-  <h1>Add a Post for {{user.full_name}}</h1>
+  <h1>Edit post for {{post.user.full_name}}</h1>
   <form class="was-validated" method="POST">
     <div class="mb-3">
       <div class="col-md-6 mb-3">
-        <label for="post-title">Title</label>
+        <label for="post-title">New Title</label>
         <input type="text" class="form-control is-invalid" name="post-title" required />
       </div>
 
-      <label for="post-content">Content</label>
+      <label for="post-content">New Content</label>
       <textarea class="form-control is-invalid" name="post-content" placeholder=". . ." required></textarea>
     </div>
 
-    <button class="btn btn-sm btn-success">Add Post</button>
+    <button class="btn btn-sm btn-success">Edit Post</button>
   </form>
 
   <br />
-  <p><a class="btn btn-sm btn-secondary" href="/users/{{user.id}}">Cancel</a></p>
+  <p><a class="btn btn-sm btn-secondary" href="/users/{{post.user.id}}">Cancel</a></p>
 </div>
+
 {% endblock %}

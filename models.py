@@ -17,7 +17,7 @@ class User(db.Model):
     first_name = db.Column(db.Text, nullable=False)
     last_name = db.Column(db.Text, nullable=False)
     image_url = db.Column(db.Text, default=DEFAULT_IMG, nullable=False)
-
+    
     # @property Helped fix '<bound method User.full_name of <User 3>>'
     @property
     def full_name(self):

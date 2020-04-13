@@ -1,13 +1,14 @@
 {% extends 'index.html' %} {% block content %}
-<h1>All Posts</h1>
+<h1 class="text-center">All Posts</h1>
+<hr />
 
 {% for posts in post %}
-<div class="post-container">
+<div class="post-container text-center">
   <h3>{{posts.title}}</h3>
   <p>{{posts.content}}</p> <span><small>By: {{posts.user.full_name}} | {{posts.formated_date}}</small></span>
 </div>
 <hr />
 {% endfor %}
 
-<p><a class="btn btn-sm btn-secondary" href="/">Go to Home</a></p>
+<p><a class="btn btn-sm btn-secondary m-3" href="/">Go to Home</a></p>
 {% endblock %}
