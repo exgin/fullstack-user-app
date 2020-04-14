@@ -31,6 +31,7 @@ class Post(db.Model):
     title = db.Column(db.Text, nullable=False)
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
+
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     user = db.relationship('User', backref='post')
@@ -40,3 +41,18 @@ class Post(db.Model):
         """Formats the date for users"""
 
         return self.created_at.strftime("%b %d %Y %H:%M:%S")
+
+class PostTag(db.Model):
+    __tablename__ = 'post_tag'
+
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key=True)
+    tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'), primary_key=True)
+
+class Tag(db.Model):
+    __tablename__ = 'tag'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.Text, nullable=False, unique=True)
+
+    # form a relationship between tag & post, with a secondary of our intersection table
+    post = db.relationship('Post', secondary='post_tag', backref='tag')
