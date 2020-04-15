@@ -137,6 +137,60 @@ def handle_edit_post(post_id):
 
     return redirect(f"/users/{edited_post.user_id}")
 
+# TAGS
+@app.route('/tags')
+def show_all_tags():
+    """Show all tags"""
+    tags = Tag.query.all()
+
+    return render_template('all-tags.html', tags=tags)
+
+@app.route('/tags/new')
+def add_new_tag():
+    """Show add new tag form"""
+
+    return render_template('create-tag.html')
+
+@app.route('/tags/new', methods=['POST'])
+def handle_add_new_tag():
+    """Handle the data for create-a-tag"""
+    tag = Tag(name=request.form['name'])
+
+    db.session.add(tag)
+    db.session.commit()
+
+    return redirect('/tags')
+
+@app.route('/tags/<int:tag_id>')
+def show_tag_details(tag_id):
+    """Show a specific tag details & it's posts with the tag related to it"""
+    tag = Tag.query.get_or_404(tag_id)
+
+    return render_template('tag-details.html', tag=tag)
+
+@app.route('/tags/<int:tag_id>/edit', methods=['POST'])
+def handle_edit_tag_form(tag_id):
+    """Handle the data from the tag being edited"""
+
+    return redirect('/')
+
+@app.route('/tags/<int:tag_id>/edit')
+def show_edit_tag_form(tag_id):
+    """Show the edit tag form"""
+    tag = Tag.query.get_or_404(tag_id)
+    
+    return render_template('edit-tag.html', tag=tag)
+
+@app.route('/tags/<int:tag_id>/delete', methods=['POST'])
+def delete_tag(tag_id):
+    """Handle the request for deleting a tag"""
+    tag = Tag.query.get_or_404(tag_id)
+
+    db.session.delete(tag)
+    db.session.commit()
+
+    return redirect('/tags')
+
 # Error for invalid page
 @app.errorhandler(404)
 def page_error(e):

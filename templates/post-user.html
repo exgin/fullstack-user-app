@@ -1,11 +1,18 @@
 {% extends 'index.html' %} {% block content %}
 <div class="container">
   <h1>Post Details from {{post.user.full_name}}</h1>
-
-  <p>{{post.title}}</p>
-
+  <hr />
+  <h3>{{post.title}}</h3>
   <p>{{post.content}}</p>
 
+  {% if post.tag %}
+  <p
+    ><b>Tags:</b>
+    {% for tag in post.tag %}
+    <a href="/tags/{{tag.id}}"><i class="badge badge-primary">{{tag.name}}</i></a>
+    {% endfor %}
+  </p>
+  {% endif %}
   <form>
     <button class="btn btn-sm btn-secondary" formmethod="GET" formaction="/users/{{ post.user_id }}">Cancel</button>
     <button class="btn btn-sm btn-warning" formmethod="GET" formaction="/post/{{ post.id }}/edit">Edit</button>

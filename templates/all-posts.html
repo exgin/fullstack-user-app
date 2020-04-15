@@ -8,7 +8,14 @@
   <p>{{posts.content}}</p> <span><small>By: {{posts.user.full_name}} | {{posts.formated_date}}</small></span>
 </div>
 <hr />
-{% endfor %}
+{% endfor %} {% if post.tag %}
+<p
+  ><b>Tags:</b>
+  {% for tag in post.tag %}
+  <a href="/tags/{{tag.id}}"><i class="badge badge-primary">{{tag.name}}</i></a>
+  {% endfor %}
+</p>
+{% endif %}
 
 <p><a class="btn btn-sm btn-secondary m-3" href="/">Go to Home</a></p>
 {% endblock %}

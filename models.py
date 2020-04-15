@@ -51,7 +51,7 @@ class PostTag(db.Model):
 class Tag(db.Model):
     __tablename__ = 'tag'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False, unique=True)
 
     # form a relationship between tag & post, with a secondary of our intersection table
